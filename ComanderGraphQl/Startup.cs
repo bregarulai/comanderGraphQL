@@ -13,6 +13,7 @@ using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace ComanderGraphQl
 {
     public class Startup
@@ -48,7 +49,10 @@ namespace ComanderGraphQl
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGraphQL();
+              
             });
+
+            app.UseGraphQLVoyager("/graphql-voyager");
         }
     }
 }
