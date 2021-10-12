@@ -1,4 +1,5 @@
 using ComanderGraphQl.Data;
+using ComanderGraphQl.GraphQL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -29,6 +30,9 @@ namespace ComanderGraphQl
         {
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer
                 (Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddGraphQLServer()
+                .AddQueryType<Query>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,10 +47,7 @@ namespace ComanderGraphQl
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
+                endpoints.MapGraphQL();
             });
         }
     }
