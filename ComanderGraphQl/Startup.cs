@@ -1,5 +1,7 @@
 using ComanderGraphQl.Data;
 using ComanderGraphQl.GraphQL;
+using ComanderGraphQl.GraphQL.Platforms;
+using ComanderGraphQl.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -10,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -32,8 +35,11 @@ namespace ComanderGraphQl
             services.AddPooledDbContextFactory<AppDbContext>(options => options.UseSqlServer
                 (Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddGraphQLServer()
+            services
+                .AddGraphQLServer()
                 .AddQueryType<Query>()
+                .AddType<PlatformType>()
+                .AddType<CommandType>()
                 .AddProjections();
         }
 
