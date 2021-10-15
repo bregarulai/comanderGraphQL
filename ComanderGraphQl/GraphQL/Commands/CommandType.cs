@@ -1,6 +1,7 @@
 ﻿using ComanderGraphQl.Data;
 using ComanderGraphQl.Models;
 using HotChocolate;
+using HotChocolate.Data;
 using HotChocolate.Types;
 using System;
 using System.Collections.Generic;
@@ -17,17 +18,20 @@ namespace ComanderGraphQl.GraphQL.Commands
             descriptor.Description("Represents any executable command");
             descriptor
                 .Field(p => p.Platform)
-                .ResolveWith<Resolvers>(p => p.GetPlatforms(default!, default!))
+                .ResolveWith<Resolvers>(p => p.GetPlatform(default!, default!))
                 .UseDbContext<AppDbContext>()
-                .Description("This is the platform in which this command can be executed");
+                .Description("This is the platform to which this platform can belong.");
         }
 
         private class Resolvers
         {
-            public IQueryable<Platform> GetPlatforms(Command command, [ScopedService] AppDbContext context)
+         
+            [UseProjection]
+            public Platform GetPlatform([Parent]Command command, [ScopedService] AppDbContext context)
             {
                 return context.Platforms
-                    .Where(p => p.Id == command.PlatformId);
+                    .FirstOrDefault(p => p.Id == command.PlatformId);
+                    
             }
         }
 

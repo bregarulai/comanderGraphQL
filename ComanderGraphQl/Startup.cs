@@ -1,5 +1,6 @@
 using ComanderGraphQl.Data;
 using ComanderGraphQl.GraphQL;
+using ComanderGraphQl.GraphQL.Commands;
 using ComanderGraphQl.GraphQL.Platforms;
 using ComanderGraphQl.Models;
 using Microsoft.AspNetCore.Builder;
@@ -12,7 +13,6 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -40,7 +40,10 @@ namespace ComanderGraphQl
                 .AddQueryType<Query>()
                 .AddType<PlatformType>()
                 .AddType<CommandType>()
-                .AddProjections();
+                .AddProjections()
+                .AddFiltering()
+                .AddSorting();
+              
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
