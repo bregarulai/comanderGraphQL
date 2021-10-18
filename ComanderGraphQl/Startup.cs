@@ -39,11 +39,13 @@ namespace ComanderGraphQl
                 .AddGraphQLServer()
                 .AddQueryType<Query>()
                 .AddMutationType<Mutation>()
+                .AddSubscriptionType<Subscription>()
                 .AddType<PlatformType>()
                 .AddType<CommandType>()
                 .AddProjections()
                 .AddFiltering()
-                .AddSorting();
+                .AddSorting()
+                .AddInMemorySubscriptions();
               
         }
 
@@ -55,6 +57,7 @@ namespace ComanderGraphQl
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseWebSockets();
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
